@@ -5,8 +5,8 @@ import * as React from 'react'
 
 function Greeting() {
   const [name, setName] = React.useState('')
-  function handleChange(event) {
-    setName(event.target.value)
+  function handleChange(event: React.SyntheticEvent<HTMLInputElement>) {
+    setName(event.currentTarget.value)
   }
   return (
     <div>

@@ -1,19 +1,13 @@
 // Lifting state
-// 💯 colocating state
-// http://localhost:3000/isolated/final/03.extra-1.js
+// http://localhost:3000/isolated/final/03.js
 
 import * as React from 'react'
 
-function Name() {
-  const [name, setName] = React.useState('')
+function Name({name, onNameChange}) {
   return (
     <div>
       <label htmlFor="name">Name: </label>
-      <input
-        id="name"
-        value={name}
-        onChange={event => setName(event.target.value)}
-      />
+      <input id="name" value={name} onChange={onNameChange} />
     </div>
   )
 }
@@ -27,20 +21,24 @@ function FavoriteAnimal({animal, onAnimalChange}) {
   )
 }
 
-function Display({animal}) {
-  return <div>{`Your favorite animal is: ${animal}!`}</div>
+function Display({name, animal}) {
+  return <div>{`Hey ${name}, your favorite animal is: ${animal}!`}</div>
 }
 
 function App() {
   const [animal, setAnimal] = React.useState('')
+  const [name, setName] = React.useState('')
   return (
     <form>
-      <Name />
+      <Name
+        name={name}
+        onNameChange={event => setName(event.currentTarget.value)}
+      />
       <FavoriteAnimal
         animal={animal}
-        onAnimalChange={event => setAnimal(event.target.value)}
+        onAnimalChange={event => setAnimal(event.currentTarget.value)}
       />
-      <Display animal={animal} />
+      <Display name={name} animal={animal} />
     </form>
   )
 }

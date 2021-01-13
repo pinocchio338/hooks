@@ -1,4 +1,5 @@
 import {graphql} from '@kentcdodds/react-workshop-app/server'
+import type {PokemonData} from './types'
 
 const pokemonApi = graphql.link('https://graphql-pokemon2.vercel.app/')
 
@@ -25,7 +26,7 @@ export const handlers = [
   }),
 ]
 
-const allPokemon = {
+const allPokemon: Record<string, Omit<PokemonData, 'fetchedAt'>> = {
   pikachu: {
     id: 'UG9rZW1vbjowMjU=',
     number: '025',

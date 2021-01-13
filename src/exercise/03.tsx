@@ -22,7 +22,7 @@ function FavoriteAnimal() {
       <input
         id="animal"
         value={animal}
-        onChange={event => setAnimal(event.target.value)}
+        onChange={event => setAnimal(event.currentTarget.value)}
       />
     </div>
   )
@@ -43,7 +43,10 @@ function App() {
   const [name, setName] = React.useState('')
   return (
     <form>
-      <Name name={name} onNameChange={event => setName(event.target.value)} />
+      <Name
+        name={name}
+        onNameChange={event => setName(event.currentTarget.value)}
+      />
       {/* 🐨 pass the animal and onAnimalChange prop here (similar to the Name component above) */}
       <FavoriteAnimal />
       {/* 🐨 pass the animal prop here */}

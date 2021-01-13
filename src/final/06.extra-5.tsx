@@ -12,7 +12,7 @@ import {
 
 class ErrorBoundary extends React.Component {
   state = {error: null}
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Error) {
     return {error}
   }
   render() {
@@ -49,7 +49,7 @@ function PokemonInfo({pokemonName}) {
   }, [pokemonName])
 
   if (status === 'idle') {
-    return 'Submit a pokemon'
+    return <span>Submit a pokemon</span>
   } else if (status === 'pending') {
     return <PokemonInfoFallback name={pokemonName} />
   } else if (status === 'rejected') {
@@ -74,7 +74,7 @@ function ErrorFallback({error}) {
 function App() {
   const [pokemonName, setPokemonName] = React.useState('')
 
-  function handleSubmit(newPokemonName) {
+  function handleSubmit(newPokemonName: string) {
     setPokemonName(newPokemonName)
   }
 

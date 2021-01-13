@@ -7,17 +7,26 @@ import * as React from 'react'
  * @param {{serialize: Function, deserialize: Function}} options The serialize and deserialize functions to use (defaults to JSON.stringify and JSON.parse respectively)
  */
 
-function useLocalStorageState(
-  key,
-  defaultValue = '',
-  {serialize = JSON.stringify, deserialize = JSON.parse} = {},
+type UseLocalStorageOptions<TState = unknown> = {
+  serialize?: (data: TState) => string
+  deserialize?: (str: string) => TState
+}
+function useLocalStorageState<TState>(
+  key: string,
+  defaultValue: TState | (() => TState),
+  {
+    serialize = JSON.stringify,
+    deserialize = JSON.parse,
+  }: UseLocalStorageOptions<TState> = {},
 ) {
   const [state, setState] = React.useState(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
     if (valueInLocalStorage) {
       return deserialize(valueInLocalStorage)
     }
-    return typeof defaultValue === 'function' ? defaultValue() : defaultValue
+    // can't do typeof because:
+    // https://github.com/microsoft/TypeScript/issues/37663#issuecomment-759728342
+    return defaultValue instanceof Function ? defaultValue() : defaultValue
   })
 
   const prevKeyRef = React.useRef(key)
@@ -31,7 +40,7 @@ function useLocalStorageState(
     window.localStorage.setItem(key, serialize(state))
   }, [key, state, serialize])
 
-  return [state, setState]
+  return [state, setState] as const
 }
 
 export {useLocalStorageState}

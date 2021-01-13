@@ -1,6 +1,5 @@
 // useEffect: HTTP requests
-// 💯 handle errors
-// http://localhost:3000/isolated/final/06.extra-1.js
+// http://localhost:3000/isolated/final/06.js
 
 import * as React from 'react'
 import {
@@ -12,29 +11,17 @@ import {
 
 function PokemonInfo({pokemonName}) {
   const [pokemon, setPokemon] = React.useState(null)
-  const [error, setError] = React.useState(null)
 
   React.useEffect(() => {
     if (!pokemonName) {
       return
     }
     setPokemon(null)
-    setError(null)
-    fetchPokemon(pokemonName).then(
-      pokemon => setPokemon(pokemon),
-      error => setError(error),
-    )
+    fetchPokemon(pokemonName).then(pokemon => setPokemon(pokemon))
   }, [pokemonName])
 
-  if (error) {
-    return (
-      <div role="alert">
-        There was an error:{' '}
-        <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
-      </div>
-    )
-  } else if (!pokemonName) {
-    return 'Submit a pokemon'
+  if (!pokemonName) {
+    return <span>Submit a pokemon</span>
   } else if (!pokemon) {
     return <PokemonInfoFallback name={pokemonName} />
   } else {
@@ -45,7 +32,7 @@ function PokemonInfo({pokemonName}) {
 function App() {
   const [pokemonName, setPokemonName] = React.useState('')
 
-  function handleSubmit(newPokemonName) {
+  function handleSubmit(newPokemonName: string) {
     setPokemonName(newPokemonName)
   }
 
